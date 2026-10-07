@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.model.Book;
 import org.example.model.Person;
 import org.example.model.Samples;
 
@@ -11,13 +12,17 @@ public class BooksDistributor {
 
         for (Person person: Samples.getSampleListOfPeople())
         {
+            if (Samples.getAvailableBooks().isEmpty()) return;
             int index = getRandomIndex();
-            person.getBooks().add(Samples.getAvailableBooks().get(index));
+            Book book = Samples.getAvailableBooks().get(index);
+            person.getBooks().add(book);
+            book.setOwner(person);
+            Samples.getAvailableBooks().remove(index);
         }
 
     }
     private int getRandomIndex(){
-        return new Random().nextInt(Samples.getAvailableBooks().size()+5);
+        return new Random().nextInt(Samples.getAvailableBooks().size());
     }
 
 
